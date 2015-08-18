@@ -1,0 +1,7 @@
+import(methods)
+importFrom("grDevices", "pdf")
+importFrom("graphics", "arrows", "curve", "hist", "lines", "par", "text", "title")
+importFrom("stats", "dnorm", "ftable", "lm", "qf", "qqline", "qqnorm", "qt", "var")
+importFrom("utils", "read.table", "str")
+##exportPattern("^[[:alpha:]]+")
+exportPattern("^[^.]")

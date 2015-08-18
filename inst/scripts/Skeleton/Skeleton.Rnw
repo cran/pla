@@ -1,0 +1,26 @@
+%\VignetteIndexEntry{Parallel line Assay: Skeleton}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{\today}
+\begin{document}
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+Data   <- readAssayTable("data/Skeleton.txt")
+@ 
+<<eval=TRUE,echo=FALSE>>=
+plaModel <- plaRBD(Data)
+print(plaModel, Sweave = TRUE, formatTest = "short")
+@ 
+Models and Residuals:
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+    \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+plots    <- plot(plaModel)
+@ 
+\end{figure}
+\end{document}
