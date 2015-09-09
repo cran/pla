@@ -1,0 +1,76 @@
+%\VignetteIndexEntry{Parallel line Assay: Subcutaneous Injection In Rats}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+% http://www.tug.dk/FontCatalogue/cmbright/
+% Computer Modern Bright
+\usepackage{cmbright}
+\usepackage[T1]{fontenc}
+\renewcommand{\familydefault}{\sfdefault}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+\begin{flushright}
+  {\footnotesize Computer Modern Bright}
+\end{flushright}
+
+\medskip
+
+{\scriptsize
+  
+  \noindent
+  5.1.1. TWO-DOSE MULTIPLE ASSAY WITH COMPLETELY RANDOMISED DESIGN \\
+  An assay of corticotrophin by subcutaneous injection in rats. \\
+  The standard preparation is administered at 0.25 and 1.0 unit
+  per 100 g of body mass. 2 preparations to be examined are
+  both assumed to have a potency of 1 unit per milligram and
+  they are administered in the same quantities as the standard.
+  The individual responses and means per treatment are given
+  in Table 5.1.1.-I. A graphical presentation (Figure 5.1.1.I)
+  gives no rise to doubt the homogeneity of variance and
+  normality of the data, but suggests problems with parallelism
+  for preparation U.
+  
+  \noindent
+  This run is with sample U.
+}
+
+\medskip
+
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+library(xtable)
+source("R/xtables.R")
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Data <- readAssayTable("data/Corticotrophin.txt", echoTitle = FALSE)
+@ 
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(1, 100, NA)
+names(factor) <- c("Potency", "Rel.\ to Ass.", "Rel.\ to Est.")
+plaModel <- pla(Data, dilutionRatio = 4, factor = factor, design = "CRD",
+                sampleLabels = c("S", "T"), echoData = FALSE)
+Fits <- fit(plaModel, expectedPotency = Data@potency, expectedAnova = Data@anova)
+<<echo=False, results=tex>>=
+xtablesAssay(data = Data, model = plaModel, fits = Fits, digits = -4)
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+plots <- plot(plaModel)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

@@ -1,0 +1,75 @@
+%\VignetteIndexEntry{Parallel line Assay: InactivatedPoliomyelitisVaccine}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+% http://www.tug.dk/FontCatalogue/dejavusans/
+% DejaVu Sans
+
+\usepackage{DejaVuSans}
+%% Another possibility is
+%% \usepackage{dejavu}
+%% which loads the DejaVu Serif and DejaVu Sans Mono fonts as well
+\renewcommand*\familydefault{\sfdefault} 
+%% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+\begin{flushright}
+  {\footnotesize DejaVu Sans}
+\end{flushright}
+
+\medskip
+
+{
+  \noindent
+  Example 10 - Four-dose parallel line assay; completely randomised; logarithmic transformation; 
+  explicit ratio notation, from CombiStats - EDQM, Concil of Europe (http://combistats.edqm.eu).
+
+  \medskip
+
+  \noindent
+  Dose-120, R4: 0.185 is marked and here replaced by 0.07823.
+}
+
+\medskip
+
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Design  <- "crd"
+Example <- "Example 10"
+Data    <- readAssayTable("data/IPV_Imputed.txt", fun = log10,
+                          rows = "Dilutions & Samples", columns = "Replicates")
+Frame   <- as.data.frame(Data, dr = 2)
+@ 
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(285/2, 100 * 285 / 160 / 2, NA)
+names(factor) <- c("Potency", "Rel. to. Ass.", "Rel. to Est.")
+pla.fit(Frame, main = Data@assayTitle, tag = Data@projectTitle, design = Design, 
+        sampleLabels = c("S", "T"), dr = 2, factor = factor,
+        Sweave = TRUE, show = TRUE,
+        expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+pla.plots(Frame, design = Design, sampleLabels = c("S", "T"), 
+          showRho = TRUE, main = Data@assayTitle)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

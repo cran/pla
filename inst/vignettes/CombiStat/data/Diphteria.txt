@@ -1,0 +1,56 @@
+Dose      Sample R1 R2 R3 R4 Label
+	         
+Dose-0.05      S  0  0  1  0 ""
+Dose-0.1       S  2  3  2  2 ""
+Dose-0.2       S  4  4  3  4 ""
+Dose-0.02      T  1  1  0  1 ""
+Dose-0.04      T  2  2  2  2 ""
+Dose-0.08      T  2  4  4  4 ""
+
+# Model                    . . . . "Parallel lines"
+# Design                   . . . . "Completely randomised"
+# Transformation           . . . . "y' = y^2"
+# FUN                      . . . . "function(x) x^2"
+# INV                      . . . . "function(x) sqrt(x)"
+# FACTOR                   . . . . "23.75, 250, 100 / 0.932"
+# Factor                   . . . . "23.75, 250, NA"
+# Rows                     . . . . "Dilutions & Samples"
+# Columns                  . . . . "Replicates"
+# DilutionRatio            . . . . "2"
+
+# ResultOfAssay            . . . . "Example 1: Diphteria"
+# Project                  . . . . "CombiStats - EDQM, Council of Europe"
+# Description              . . . . "Three-dose parallel line assay; explicit volume units"
+# Comment                  . . . . "Square transformation"
+# Resume                   . . . . ""
+# Date                     . . . . ""
+# Operator                 . . . . ""
+
+# Source                   . . . . "CombiStats - EDQM, Council of Europe"
+# URL                      . . . . "http://combistats.edqm.eu/images/stories/Examples/Diphtheria%20intradermal.pdf"
+# Example                  . . . . "Example: 01"
+# Substance                . . . . "Diphteria vaccine"
+# Method                   . . . . "Intradermal challenge"
+
+# StandardSample           . . . . "Ph. Eur. BRP Batch 1"
+# StandardAssPot           . . . . "9.5 IU / dose"
+# StandardDilutions        . . . . "0.2 0.1 0.05"
+
+# Sample1Sample            . . . . "Batch 123456"
+# Sample1AssPot            . . . . "9.5 IU / dose"
+# Sample1Dilutions         . . . . "0.08 0.04 0.02"
+
+# A1@Preparations          1   2.66667    2.66667   0.291  0.596
+# A1@Regression            1 689.063    689.063    75.170  0.000
+# A1@Non-parallelism       1   3.06250    3.06250   0.334  0.570
+# A1@Non-linearity         2  32.7083    16.3542    1.784  0.196
+# A1@_Standard             1  10.6667    10.6667    1.164  0.295
+# A1@_Sample_1             1  22.0417    22.0417    2.405  0.138
+# A1@Treatments            5 727.500    145.500    15.873  0.000
+# A1@Residual_error       18 165.000      9.16667    .      .
+# A1@Total                23 892.500     38.8043     .      .
+# P1@Potency               .  16.6014    22.1352   29.2553  .
+# P1@ReltoAss              . 174.8      233.0     308.0     .
+# P1@ReltoEst              .  75.0      100.0     132.2     .
+# C1@Commonslope(factor)   .   9.46769     .         .      .
+# C1@Correlation|r|        .   0.880367    .         .      .

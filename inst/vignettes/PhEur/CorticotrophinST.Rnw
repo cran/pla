@@ -1,0 +1,59 @@
+%\VignetteIndexEntry{Parallel line Assay: Subcutaneous Injection In Rats}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, BCOR3mm, DIV16]{scrreprt}
+\usepackage{Sweave}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+{\scriptsize
+  \noindent
+  5.1.1. TWO-DOSE MULTIPLE ASSAY WITH COMPLETELY RANDOMISED DESIGN \\
+  An assay of corticotrophin by subcutaneous injection in rats. \\
+  The standard preparation is administered at 0.25 and 1.0 unit
+  per 100 g of body mass. 2 preparations to be examined are
+  both assumed to have a potency of 1 unit per milligram and
+  they are administered in the same quantities as the standard.
+  The individual responses and means per treatment are given
+  in Table 5.1.1.-I. A graphical presentation (Figure 5.1.1.I)
+  gives no rise to doubt the homogeneity of variance and
+  normality of the data, but suggests problems with parallelism
+  for preparation U.
+  
+  \noindent
+  This run is without sample U.
+}
+
+<<eval=TRUE,echo=FALSE>>=
+## The manual page of this data by 'help' gives a much shorter version of the following code:
+library(pla)
+Design <- "crd"
+Data   <- readAssayTable("data/CorticotrophinST.txt")
+Frame  <- as.data.frame(Data)
+@ 
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(1, 100, NA)
+names(factor) <- c("Potency", "Rel.\ to Ass.", "Rel.\ to Est.")
+fits <- pla.fit(Frame, design = Design, sampleLabels = c("S", "T"),
+                dr = 4, factor = factor,
+                main = Data@assayTitle, tag = Data@projectTitle, 
+                Sweave = TRUE, show = TRUE,
+                expectedPotency = Data@potency, expectedAnova = Data@anova,
+                returnPotencyEstimates = TRUE)
+@ 
+Models and Residuals:
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+    \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+pla.plots(Frame, design = Design, sampleLabels = c("S", "T"), 
+          colTst = c("blue"), showRho = FALSE, main = Data@assayTitle,
+          tests = fits@tests)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

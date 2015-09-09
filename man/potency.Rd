@@ -8,6 +8,6 @@
 \details{ See page 480 in Ph.Eur. }
 \value{ A list of lists with variables named as at page 480 in Ph.Eur. }
 \references{  Chapter 5.3. Statistical analysis.
-  In EUROPEAN PHARMACOPOEIA 5.0, 2004; 475-504. }
+  In EUROPEAN PHARMACOPOEIA version 8.0, 2014; 607-635. }
 \author{Jens Henrik Badsberg}
 \keyword{ design }

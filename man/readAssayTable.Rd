@@ -72,8 +72,8 @@ readAssayTable(file = "AssayTable.txt",
 }
 \details{The file is read by \link{read.table}.
 
-  % Navigate to the folder \code{.../pla/vignettes/'Source'/data/}
-  % or \code{.../pla/scripts/data/} to see some examples of data-files.
+  Navigate to the folder \code{.../pla/vignettes/'Source'/data/}
+  or \code{.../pla/scripts/data/} to see some examples of data-files.
   The file \code{.../pla/scripts/data/AssayTable.txt} shows a very
   simple example without \code{"comments"} for project- and assay-title,
   design, etc.
@@ -88,7 +88,27 @@ readAssayTable(file = "AssayTable.txt",
   
   1. form: Columns identified by the cross classification
   of sample and dose, and rows identified by
-  replicate-, repetition-, plate-, or block-number.
+  replicate-, repetition-, plate-, or block-number, used for
+  \link{Erythromycin}, \link{Erythropoietin}, and \link{Turbidimetric}: 
+
+  \preformatted{
+Block    S1  S2  S3   T1  T2  T3  Label
+
+Block-1  185 192 210  172 201 214 ""
+Block-2  185 199 216  178 205 212 ""
+Block-3  174 200 211  185 196 216 ""
+Block-4  175 198 216  184 196 208 ""
+Block-5  185 201 211  175 201 218 ""
+Block-6  180 194 211  178 197 214 ""
+
+# Model              . . . . . "Parallel lines"
+# Design             . . . . . "Randomized block"
+# DilutionRatio      . . . . . "1.5"
+# ResultOfAssay      . . . . . "Example 22: Erythromycin"
+# Project            . . . . . "CombiStats - EDQM, Council of Europe"
+# Description        . . . . . "Three-dose parallel line assay ..."
+...
+}
 
   For data entered as this table for the measurements, the header line,
   first record or row, of the file gives the names of the treatments
@@ -118,13 +138,32 @@ readAssayTable(file = "AssayTable.txt",
   
   A column with label \code{sample} can be used when samples (for one
   'replicate') requires more lines. 
-  This is used for the "2. alternative" below.
+  This is used for \link{HepatitisB} under the "2. alternative" below.
   The table can also be transposed (transformed) relative to the above
   "1. form", if rows contains the replicates of one treatment, i.e. one
   cross-classification of sample and dose, and columns the responses for
   the individual replicate numbers.
   A column \code{Dose} and a column \code{Sample} is then used for naming
   \code{treatments}.
+
+\preformatted{
+Dose      Sample R1 R2 R3 R4 Label
+	         
+Dose-0.05      S  0  0  1  0 ""
+Dose-0.1       S  2  3  2  2 ""
+Dose-0.2       S  4  4  3  4 ""
+	         
+Dose-0.02      T  1  1  0  1 ""
+Dose-0.04      T  2  2  2  2 ""
+Dose-0.08      T  2  4  4  4 ""
+
+# Model         . . . . "Parallel lines"
+# Design        . . . . "Completely randomised"
+# ResultOfAssay . . . . "Example 1: Diphteria"
+# Project       . . . . "CombiStats - EDQM, Council of Europe"
+# Description   . . . . "Three-dose parallel line assay; explicit volume units"
+...
+}
 
   1. alternative: Rows identified by the cross classification of sample
   and dose, and columns identified by replicate-, repetition-, plate-,
@@ -137,6 +176,12 @@ readAssayTable(file = "AssayTable.txt",
   these two columns.
 
   This table is just a transposed version of the above "1. form".
+
+  This used for \link{Diphteria},
+  \link{FactorIX},
+  \link{HepatitisBvaccine},
+  \link{HumanHepatitis}, and
+  \link{IPV}.
   
   2. alternative: Rows identified by the cross classification of sample
   and replicate-, repetition-, plate-, or block-number and columns
@@ -145,6 +190,52 @@ readAssayTable(file = "AssayTable.txt",
   This is similar to the above "1. form", but the lines are just too
   long, and thus divided by sample.
   Here also a column with name \code{sample} gives the \code{sample}.
+
+  Used for \link{HepatitisB}:
+  
+\preformatted{
+Replicate   Sample D1    D2    D3    D4    D5    Label
+                				       
+Replicate-1 S      0.043 0.093 0.159 0.283 0.514 ""	
+Replicate-2 S      0.045 0.099 0.154 0.295 0.531 ""	
+Replicate-3 S      0.051 0.082 0.166 0.362 0.545 ""	
+Replicate-1 T      0.097 0.167 0.327 0.501 1.140 ""	
+Replicate-2 T      0.097 0.157 0.355 0.665 1.386 ""	
+Replicate-3 T      0.094 0.178 0.345 0.576 1.051 ""	
+Replicate-1 U      0.086 0.127 0.277 0.586 0.957 ""	
+Replicate-2 U      0.071 0.146 0.268 0.489 0.866 ""	
+Replicate-3 U      0.073 0.133 0.269 0.546 1.045 ""	
+Replicate-1 V      0.082 0.145 0.318 0.552 1.037 ""	
+Replicate-2 V      0.082 0.144 0.306 0.551 1.039 ""	
+Replicate-3 V      0.086 0.173 0.316 0.624 1.068 ""	
+
+# Model         . . . . . "Parallel lines"
+# Design        . . . . . "Completely randomised"
+# ResultOfAssay . . . . . "Three hepatitis B vaccines against a standard"
+# Project       . . . . . "Europ. Pharm., 5th Ed. (2005), Ch. 5.3, 5.1.4.a"
+# Description   . . . . . "Five-Dose Multiple Assay" ...
+}
+
+  For \link{HeparinSodium} a special form of the above is used with an "inner" factor:
+
+\preformatted{
+Dose       Sample R-1:I-y R-1:I-z R-2:I-y R-2:I-z Label
+	          				    
+Dose-1.044      S    78.9    79.8    79.0    79.1 ""
+Dose-1.321      S   108.2   113.1   119.1   122.5 ""
+Dose-1.670      S   176.9   180.1   173.6   169.8 ""
+Dose-1.000      T    79.8    76.4    78.9    78.7 ""
+Dose-1.265      T   107.2   106.5   117.7   117.3 ""
+Dose-1.600      T   168.2   171.4   179.3   162.7 ""
+
+# Model          . . . "Parallel lines"
+# Design         . . . "Completely randomised"
+# Transformation . . . "y' = log((y+z)/2"
+# FUN . . . "function(x) log(apply(array(x, dim = c(6, 2, 2)), c(1, 3), mean))/log(10)"
+# ResultOfAssay  . . . "Example 5: Heparin Sodium"
+# Project        . . . "CombiStats - EDQM, Council of Europe"
+# Description    . . . "Three-dose parallel line assay" ...
+}
 
   For the 1. and 2. alternative, the order of the dilution steps are
   determined by the order of the columns (by \link{assayTable2frame}
@@ -256,6 +347,54 @@ readAssayTable(file = "AssayTable.txt",
   and columns of variables and factors is expected.
   This is used for latin square designs.
 
+  \preformatted{
+Column Row Sample Dilution Response
+1      1   S      1        161
+1      2   T      1        151
+1      3   T      2        162
+1      4   S      3        194
+1      5   S      2        176
+1      6   T      3        193
+2      1   T      1        160
+2      2   T      3        192
+2      3   S      3        195
+2      4   S      2        184
+2      5   T      2        181
+2      6   S      1        166
+3      1   T      2        178
+3      2   S      1        150
+3      3   S      2        174
+3      4   T      3        199
+3      5   S      3        201
+3      6   T      1        161
+4      1   S      3        187
+4      2   S      2        172
+4      3   S      1        161
+4      4   T      1        160
+4      5   T      3        202
+4      6   T      2        186
+5      1   S      2        171
+5      2   T      2        170
+5      3   T      3        193
+5      4   S      1        163
+5      5   T      1        154
+5      6   S      3        198
+6      1   T      3        194
+6      2   S      3        192
+6      3   T      1        151
+6      4   T      2        171
+6      5   S      1        151
+6      6   S      2        182
+
+# Model         . .  "Parallel lines"
+# Design        . .  "Latin square design"
+
+# ResultOfAssay . .  "Antibiotic agar diffusion assay (Example 15: Nystatin)"
+# Project       . .  "Europ. Pharm., 5th Ed. (2005), Ch. 5.3, 5.1.2"
+# Comment       . .  "Five-dose multiple assay"
+...
+}
+
   Labels (text-lines for the "report"):
   
   Labels as e.g. \code{design}, \code{dilutionRatio}, \code{model},
@@ -320,5 +459,34 @@ as.array(data.frame(CO2), response = "uptake",
 as.array(data.frame(ChickWeight), response = "weight",
          factorNames = c("Time", "Chick", "Diet"))
 as.array(npk)
+
+data(Diphteria)
+
+Data <- readAssayTable(paste(system.file(package = "pla"),
+                             "vignettes/CombiStat/data/Diphteria.txt",
+                             sep = "/"), fun = function(x) x^2,
+                        rows = "Dilutions & Samples", columns = "Replicates")
+Diphteria
+print(Diphteria)
+as.array(Diphteria)
+as.data.frame(Diphteria)
+as.table(Diphteria)
+
+data(Nystatin)
+
+Data <- readAssayTable(paste(system.file(package = "pla"),
+                             "vignettes/CombiStat/data/Nystatin.txt",
+                             sep = "/"),
+                       rows = "Measurements", 
+                       columns = "All factors and variables")
+Nystatin
+print(Nystatin)
+as.array(Nystatin)
+as.array(Nystatin, which = 1:3, reduced = TRUE)
+as.array(Nystatin, which = 1:2, reduced = TRUE)
+as.array(Nystatin, which = 1:2, FUN = var, reduced = TRUE)
+as.array(Nystatin, which = 1:2, FUN = length, reduced = TRUE)
+as.data.frame(Nystatin)
+as.table(Nystatin, which = 1:3, reduced = TRUE)
 }
 \keyword{ mich }

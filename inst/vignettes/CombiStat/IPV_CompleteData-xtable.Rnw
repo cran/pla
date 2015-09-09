@@ -1,0 +1,104 @@
+%\VignetteIndexEntry{Parallel line Assay: InactivatedPoliomyelitisVaccine}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+% http://www.tug.dk/FontCatalogue/dejavusans/
+% DejaVu Sans
+
+\usepackage{DejaVuSans}
+%% Another possibility is
+%% \usepackage{dejavu}
+%% which loads the DejaVu Serif and DejaVu Sans Mono fonts as well
+\renewcommand*\familydefault{\sfdefault} 
+%% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+\begin{flushright}
+  {\footnotesize DejaVu Sans}
+\end{flushright}
+
+\medskip
+
+{
+  \noindent
+  Example 10 - Four-dose parallel line assay; completely randomised; logarithmic transformation; 
+  explicit ratio notation, from CombiStats - EDQM, Concil of Europe (http://combistats.edqm.eu).
+
+  \medskip
+
+  \noindent
+  ``Complete Data'' analysis is here applied to handle the "Outlier" 0.114:
+  Sums of Squares as CombiStat.
+}
+
+\medskip
+
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+library(xtable)
+source("R/xtables.R")
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Data <- readAssayTable("data/IPV_CompleteData.txt", fun = log10,
+                       rows = "Dilutions & Samples", columns = "Replicates",
+                       echoTitle = FALSE)
+@ 
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(285/2, 100 * 285 / 160 / 2, NA)
+names(factor) <- c("Potency", "Rel. to. Ass.", "Rel. to Est.")
+plaModel <- plaCRD(Data, dilutionRatio = 2, factor = factor, echoData = FALSE)
+Fits <- fit(plaModel, expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+<<echo=False, results=tex>>=
+xtablesAssay(data = Data, model = plaModel, fits = Fits, digits = 4,
+             label = "Data before log-transformation",
+             INV = function(x) 10^x)
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=6>>=
+plots <- plot(plaModel, plots = "twoway", mfrow = c(1, 1))
+@
+\caption{\textit{Two way.}}
+\end{figure}
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=6>>=
+plots <- plot(plaModel, plots = "stepadjusted", mfrow = c(1, 1))
+@
+\caption{\textit{Step Adjusted Two way.}}
+\end{figure}
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=6>>=
+plots <- plot(plaModel, plots = "residualsPlate", mfrow = c(1, 1))
+@
+\caption{\textit{Residuals by plate.}}
+\end{figure}
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+plots <- plot(plaModel)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

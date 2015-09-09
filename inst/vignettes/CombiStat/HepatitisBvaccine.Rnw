@@ -1,0 +1,58 @@
+%\VignetteIndexEntry{Parallel line Assay: HepatitisBvaccine}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, BCOR3mm, DIV16]{scrreprt}
+\usepackage{Sweave}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+{\noindent
+ Example 7 - Five-dose parallel line assay; completely randomised;
+ logarithmic transformation; explicit ratio notation:
+ Hepatitis B vaccine.
+}
+
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+## The manual page of this data by 'help' gives a much shorter version of the following code:
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Design  <- "crd"
+Example <- "Example 7"
+Data    <- readAssayTable("data/HepatitisBvaccine.txt", fun = log,
+                          rows = "Dilutions & Samples", columns = "Replicates")
+Frame   <- as.data.frame(Data)
+sampleLabels <- c("Standard_1", "Test_2", "Unknown_3")
+@ 
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(20, 100, 100 / 2.17881187, 20, 100, 100 / 1.76276292)
+names(factor) <- c("Potency T", "Rel. to. Ass. T", "Rel. to Est. T",
+                   "Potency U", "Rel. to. Ass. U", "Rel. to Est. U")
+factor <- c(20, 100, 100 / 2.17881187, 
+            20, 100, 100 / 1.76276292)
+factor <- c(20, 100, NA, 
+            20, 100, NA)
+names(factor) <- c("Potency T", "Rel. to Ass. T", "Rel. to Est. T",
+                   "Potency U", "Rel. to Ass. U", "Rel. to Est. U")
+factor <- c(20, 100, NA)
+names(factor) <- c("Potency", "Rel. to Ass.", "Rel. to Est.")
+pla.fit(Frame, main = Data@assayTitle, tag = Data@projectTitle, design = Design, 
+        sampleLabels = sampleLabels, dr = 2, factor = factor,
+        Sweave = TRUE, show = TRUE,
+        expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+Models and Residuals:
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+    \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+pla.plots(Frame, sampleLabels = sampleLabels, 
+          showRho = FALSE, design = Design, main = Data@assayTitle)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

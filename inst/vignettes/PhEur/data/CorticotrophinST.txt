@@ -1,0 +1,56 @@
+Plate         S1  S2  T1  T2   Label
+
+Plate-1       300 289 310 230  "" 
+Plate-2       310 221 290 210  "" 
+Plate-3       330 267 360 280  "" 
+Plate-4       290 236 341 261  "" 
+Plate-5       364 250 321 241  "" 
+Plate-6       328 231 370 290  "" 
+Plate-7       390 229 303 223  "" 
+Plate-8       360 269 334 254  "" 
+Plate-9       342 233 295 216  "" 
+Plate-0       306 259 315 235  "" 
+
+Model           . . . . "Parallel lines"
+Design          . . . . "Completely randomised"
+Transformation  . . . . "y' = y"
+FUN             . . . . "function(x) x"
+INV             . . . . "function(x) x"
+Factor          . . . . "1"
+Rows            . . . . "Replicates"
+Columns         . . . . "Samples & Dilutions"
+DilutionRatio   . . . . "4"
+
+ResultOfAssay   . . . . "Subcutaneous Injection In Rats; Sample U omitted"
+Project         . . . . "Europ. Pharm., 5th Ed. (2005), Ch. 5.3, 5.1.1"
+Description     . . . . "Two-dose multiple assay"
+Comment         . . . . ""
+Resume          . . . . ""
+Date            . . . . ""
+Operator        . . . . ""
+
+B1@Preparations          1    390.6      390.6      .      ""
+B1@Regression            1  66830.6    66830.6    90.5     "1.000"
+B1@Non-parallelism       1     34.2       34.2     0.05    "0.831"
+B1@Non-linearity         2    .             .       .      ""
+B1@Treatments            3  67255.5         .       .      ""
+B1@Residual_error       36  26587.3      738.54     .      ""
+B1@Total                39  93842.8         .       .      ""
+
+A1@Preparations          1    390.625    390.625   0.529   "0.472"
+A1@Regression            1  66830.6    66830.6    90.491   "0.000"
+A1@Non-parallelism       1     34.2250    34.2250  0.046   "0.831"
+A1@Non-linearity         2       .          .       .      ""
+A1@Treatments            3  67255.5    22418.5    30.355   "0.000"
+A1@Residual_error       36  26587.3      738.536    .      ""
+A1@Total                39  93842.8     2406.23     .      ""
+
+P1@Potency               .      0.824973   1.11181 1.51357 ""
+P1@ReltoAss              .     82.5      111.2   151.4     ""
+P1@ReltoEst              .     74.2      100.0   136.1     ""
+C1@Commonslope(factor)   .    -58.970       .       .      ""
+C1@Correlation|r|        .      0.846356    .       .      ""
+
+
+
+

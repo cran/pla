@@ -1,0 +1,60 @@
+%\VignetteIndexEntry{Parallel line Assay: HeparinSodium}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+% http://www.tug.dk/FontCatalogue/cmss/
+% Computer Modern Sans Serif
+% \usepackage{cmbright}
+\usepackage[T1]{fontenc}
+\renewcommand{\familydefault}{\sfdefault}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+\begin{flushright}
+  {\footnotesize Computer Modern Sans Serif}
+\end{flushright}
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+library(xtable)
+source("R/xtables.R")
+Data <- readAssayTable("data/HeparinSodium.txt",
+##                       fun = function(x) 
+##                       apply(array(x, dim = c(6, 2, 2)),
+##                             c(1, 3), mean),
+##                       log = 10,
+                       rows = "Dilutions & Samples", 
+                       columns = "Inner & Replicates",
+                       echoTitle = FALSE)
+@ 
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(1044, 104.4, 100 / 0.98653970)
+names(factor) <- c("Potency", "Rel. to. Ass.", "Rel. to Est.")
+plaModel <- plaCRD(Data, factor = factor,
+                   dilutionRatio = sqrt(sqrt(1.67 * 1.6 / 1.044)),
+                   echoData = FALSE)
+Fits <- fit(plaModel, expectedPotency = Data@potency, expectedAnova = Data@anova)
+@
+<<echo=False, results=tex>>=
+xtablesAssay(data = Data, model = plaModel, fits = Fits, digits = 3,
+             label = "Data before log-transformation, but after mean of two measurements",
+             INV = function(x) 10^x)
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+    \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+plots    <- plot(plaModel)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

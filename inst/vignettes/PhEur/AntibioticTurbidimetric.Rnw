@@ -1,0 +1,65 @@
+%\VignetteIndexEntry{Parallel line Assay: AntibioticTurbidimetric}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, BCOR3mm, DIV16]{scrreprt}
+\usepackage{Sweave}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+{\scriptsize
+  \noindent 
+  5.1.3. FOUR-DOSE RANDOMISED BLOCK DESIGN \\
+  Antibiotic turbidimetric assay. \\
+  This assay is designed to assign a potency in international
+  units per vial. The standard has an assigned potency of
+  670 IU/mg. The test preparation has an assumed potency of
+  20 000 IU/vial. On the basis of this information the stock
+  solutions are prepared as follows. 16.7 mg of the standard
+  is dissolved in 25 ml solvent and the contents of one vial
+  of the test preparation are dissolved in 40 ml solvent. The
+  final solutions are prepared by first diluting to 1/40 and
+  further using a dilution ratio of 1.5. The tubes are placed
+  in a water-bath in a randomised block arrangement (see
+  Section 8.5). 
+
+  \noindent 
+  The responses are listed in Table 5.1.3.-I.
+  Inspection of Figure 5.1.3.-I gives no rise to doubt the validity
+  of the assumptions of normality and homogeneity of variance
+  of the data. 
+
+  \noindent 
+  The standard deviation of S3 is somewhat high
+  but is no reason for concern.
+}
+
+<<eval=TRUE,echo=FALSE>>=
+## The manual page of this data by 'help' gives a much shorter version of the following code:
+library(pla)
+Design <- "blocks"
+Data   <- readAssayTable("data/AntibioticTurbidimetric.txt")
+Frame  <- as.data.frame(Data, dr = 1.5)
+@ 
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+factor <- 670 * 16.7/25 / (20000 * 1 / 40) * 20000
+factor <- factor * c(1, 1/200, NA)
+names(factor) <- c("Potency", "Rel.\ to Ass.", "Rel.\ to Est.")
+pla.fit(Frame, design = Design, sampleLabels = c("S", "T"), dr = 1.5, factor = factor,
+        main = Data@assayTitle, tag = Data@projectTitle, Sweave = TRUE, show = TRUE,
+        expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+Models and Residuals:
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+    \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+pla.plots(Frame, design = Design, sampleLabels = c("S", "T"), 
+          showRho = FALSE, main = Data@assayTitle)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

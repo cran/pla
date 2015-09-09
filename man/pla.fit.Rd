@@ -105,8 +105,8 @@ pla.fit(data,
     "logpotency", "potency").
     If \code{TRUE} then all the results are reported. }
   \item{sink}{ Output is diverted to 
-      \code{paste(tag, "-Result.txt", sep = "")} if this boolean is
-      \code{TRUE}. }
+     \code{paste(tag, "-Result.txt", sep = "")} if this boolean is
+     \code{TRUE}. }
   \item{alpha}{ A numeric (vector), the level of significance for test of
     validity, default \code{0.05}. \code{alpha} can be a named vector
     with the levels of significance for the tests of \code{Regression},
@@ -129,4 +129,21 @@ pla.fit(data,
 }
 \value{No values returned.}
 \author{Jens Henrik Badsberg}
+\examples{
+data(Turbidimetric); Data <- Turbidimetric
+
+Design <- "blocks"
+Data   <- readAssayTable(paste(system.file(package = "pla"),
+                           "vignettes/PhEur/data/AntibioticTurbidimetric.txt",
+                           sep = "/"))
+Frame  <- as.data.frame(Data, dr = 1.5)
+
+fits   <- pla.fit(Frame, design = Design, sampleLabels = c("S", "T"),
+                  dr = 1.5, returnPotencyEstimates = TRUE)
+
+## Alternative on object of class 'pla':
+
+plaModel <- plaRBD(Data)
+Fits <- fit(plaModel)
+}
 \keyword{ design }

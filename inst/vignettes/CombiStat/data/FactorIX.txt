@@ -1,0 +1,74 @@
+Dose        R1   R2 Sample Label
+
+Dose-10   61.8 63.2      S ""
+Dose-20   72.4 76.1      S ""
+Dose-40   84.8 90.0      S ""
+Dose-80   96.4 99.6      S ""
+Dose-500  62.4 65.4      T ""
+Dose-1000 74.0 76.1      T ""
+Dose-2000 86.3 89.9      T ""
+Dose-4000 96.0 99.4      T ""
+
+Model                  . . . "Parallel lines"
+Design                 . . . "Completely randomised"
+Transformation         . . . "y' = log(y)"
+FUN                    . . . "function(x) log10(x)"
+INV                    . . . "function(x) 10^x"
+Factor                 . . . "489.35, 97.83, 100 / 1.04570690"
+Rows                   . . . "Dilutions & Samples"
+Columns                . . . "Replicates"
+DilutionRatio          . . . "2"
+
+ResultOfAssay          . . . "Example 3: Factor IX"
+Project                . . . "CombiStats - EDQM, Council of Europe"
+Description            . . . "Four-dose parallel line assay; explicit ratio notation"
+Comment                . . . "Logarithmic transformation"
+Resume                 . . . ""
+Date                   . . . ""
+Operator               . . . ""
+
+Source                 . . . "CombiStats - EDQM, Council of Europe"
+URL                    . . . "http://combistats.edqm.eu/images/stories/Examples/Factor%20IX.pdf"
+Example                . . . "03"
+Substance              . . . "Factor IX"
+Method                 . . . "Coagulation"
+
+StandardSample         . . . "Ph. Eur. BRP Batch 1"
+StandardAssPot         . . . "10.7 IU/vial"
+StandardReconstitution . . . "1 vial / ml"
+StandardDilutions      . . . "1/10 1/20 1/40 1/80"
+
+Sample1Sample          . . . "Batch 123456"
+Sample1AssPot          . . . "500 IU/vial"
+Sample1Reconstitution  . . . "1 vial / ml"
+Sample1Dilutions       . . . "1/500 1/1000 1/2000 1/4000"
+
+A1@Preparations             1   6.80762E-05   6.80762E-05   0.429 
+A1@Regression               1   0.0818718     0.0818718   515.839 
+A1@Non-parallelism          1   5.70673E-05   5.70673E-05   0.360 
+A1@Non-linearity            4   0.000708816   0.000177204   1.116 
+A1@_Standard                2   0.000337761   0.000168880   1.064 
+A1@_Sample_1                2   0.000371055   0.000185528   1.169 
+A1@Treatments               7   0.0827058     0.0118151    74.442 
+A1@Residual_error           8   0.00126973    0.000158716    .    
+A1@Total                   15   0.0839755     0.00559837     .    
+P1@Potency                  . 436.530       511.616       599.058 
+P1@ReltoAss                 .  87.3         102.3         119.8   
+P1@ReltoEst                 .  85.3         100.0         117.1   
+C1@CommonSlope(factor)      .  -0.0923053      .             .    
+C1@Correlation|r|           .   0.987805       .             .    
+
+A2@Preparations             0.531 . . . ""
+A2@Regression               0.000 . . . ""
+A2@Non-parallelism          0.565 . . . ""
+A2@Non-linearity            0.413 . . . ""
+A2@_Standard                0.389 . . . ""
+A2@_Sample_1                0.359 . . . ""
+A2@Treatments               0.000 . . . ""
+A2@Residual_error            .    . . . ""
+A2@Total                     .    . . . ""
+P2@Potency                   .    . . . ""
+P2@ReltoAss                  .    . . . ""
+P2@ReltoEst                  .    . . . ""
+C2@CommonSlope(factor)       .    . . . ""
+C2@Correlation|r|            .    . . . ""

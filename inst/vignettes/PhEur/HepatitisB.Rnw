@@ -1,0 +1,69 @@
+%\VignetteIndexEntry{Parallel line Assay: HepatitisB}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, BCOR3mm, DIV16]{scrreprt}
+\usepackage{Sweave}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+{\scriptsize
+  
+  \noindent
+  5.1.4. FIVE-DOSE MULTIPLE ASSAYWITH COMPLETELY RANDOMISED DESIGN \\
+  An in-vitro assay of three hepatitis B vaccines against a standard. \\
+  3 independent two-fold dilution series of 5 dilutions were
+  prepared from each of the vaccines. 
+  
+  \noindent
+  After some additional
+  steps in the assay procedure, absorbances were measured.
+  They are shown in Table 5.1.4.-I.
+  
+  \noindent
+  The logarithms of the optical densities are known to have
+  a linear relationship with the logarithms of the doses.
+  
+  \noindent
+  The mean responses of the ln-transformed optical densities are
+  listed in Table 5.1.4.-II. 
+  
+  \noindent
+  No unusual features are discovered
+  in a graphical presentation of the data.
+}
+
+<<eval=TRUE,echo=FALSE>>=
+## The manual page of this data by 'help' gives a much shorter version of the following code:
+library(pla)
+Design <- "crd"
+Data   <- readAssayTable("data/HepatitisB.txt", fun = log)
+Frame  <- as.data.frame(Data)
+@ 
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(20, 100, NA)
+names(factor) <- c("Potency", "Rel.\ to Ass.", "Rel.\ to Est.")
+pla.fit(Frame, design = Design, sampleLabels = c("S", "T", "U", "V"),
+        dr = 2.0, factor = factor,
+        main = Data@assayTitle, tag = Data@projectTitle,
+        Sweave = TRUE, show = TRUE,
+        expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+Models and Residuals:
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+    \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+
+cbbPalette <- c("#000000", "#009E73", "#e79f00", "#9ad0f3",
+                 "#0072B2", "#D55E00", "#CC79A7", "#F0E442")
+
+pla.plots(Frame, design = Design, sampleLabels = c("S", "T", "U", "V"), 
+          showRho = FALSE, colTst = cbbPalette[5:7], main = Data@assayTitle)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

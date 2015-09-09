@@ -1,0 +1,55 @@
+Dose      R-1:I-y R-1:I-z R-2:I-y R-2:I-z Sample
+
+Dose-1.044   78.9    79.8    79.0    79.1 S
+Dose-1.321  108.2   113.1   119.1   122.5 S
+Dose-1.670  176.9   180.1   173.6   169.8 S
+Dose-1.000   79.8    76.4    78.9    78.7 T
+Dose-1.265  107.2   106.5   117.7   117.3 T
+Dose-1.600  168.2   171.4   179.3   162.7 T
+
+Model                    "Parallel lines"
+Design                   "Completely randomised"
+Transformation           "y' = log((y+z)/2"
+FUN                      "function(x) log(apply(array(x, dim = c(6, 2, 2)), c(1, 3), mean))/log(10)"
+INV                      "function(x) 10^(x)"
+Factor                   "1044, 104.4, 100 / 0.98653970"
+Rows                     "Dilutions & Samples"
+Columns                  "Replicates by pairs"
+DilutionRatio            "sqrt(sqrt(1.67 * 1.6 / 1.044))"
+
+ResultOfAssay            "Example 5: Heparin Sodium"
+Project                  "CombiStats - EDQM, Council of Europe"
+Description              "Three-dose parallel line assay; explicit content notation"
+Comment                  "Custom transformation"
+Resume                   ""
+Date                     ""
+Operator                 ""
+
+Source                   "CombiStats - EDQM, Council of Europe"
+URL                      "http://combistats.edqm.eu/images/stories/Examples/Heparin%20sodium.pdf"
+Example                  "05"
+Substance                "Heparin Sodium"
+Method                   "European Pharmacopoeia (1997), 2.7.5"
+
+StandardSample           "Ph. Eur. BRP Batch 1"
+StandardAssPot           "1044 IU/ml"
+StandardDilutions        "1.044 1.321 1.670"
+
+Sample1Sample            "In-house reference"
+Sample1AssPot            "1000 IU/ml"
+Sample1Dilutions         "1.000 1.265 1.600"
+
+A1@Preparations        1    0.000289614    0.000289614    1.002    0.355
+A1@Regression          1    0.232114       0.232114     803.381    0.000
+A1@Non-parallelism     1    3.01665E-05    3.01665E-05    0.104    0.758
+A1@Non-linearity       2    0.000340714    0.000170357    0.590    0.584
+A1@_Standard           1    9.14836E-05    9.14836E-05    0.317    0.594
+A1@_Sample_1           1    0.000249230    0.000249230    0.863    0.389
+A1@Treatments          5    0.232775       0.0465549    161.133    0.000
+A1@Residual_error      6    0.00173353     0.000288922     .        .
+A1@Total              11    0.234508       0.0213189       .        .
+P1@Potency             .  996.153       1029.95        1064.68      .
+P1@ReltoAss            .   99.6          103.0          106.5       .
+P1@ReltoEst            .   96.7          100.0          103.4       .
+C1@CommonSlope(factor) .    0.725012        .              .        .
+C1@Correlation|r|      .    0.995503        .              .        .

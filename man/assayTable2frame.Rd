@@ -88,4 +88,12 @@ assayTable2frame(table,
   replicate numbers (blocks), response-values, etc.
 }
 \author{Jens Henrik Badsberg}
+\examples{
+data(HepatitisB); Data <- HepatitisB
+
+Data <- readAssayTable(paste(system.file(package = "pla"),
+                             "vignettes/PhEur/data/HepatitisB.txt",
+                             sep = "/"), fun = log)
+Frame  <- assayTable2frame(as.array(Data))
+}
 \keyword{ mich }

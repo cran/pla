@@ -84,5 +84,24 @@ Fits      <- pla.fit(Frame, sampleLabels = c("VC", "OJ"), dr = 2,
                      design = Design, main = "ToothGrowth", show = TRUE)
 pla.plots(Frame, design = Design,
           sampleLabels = c("VC", "OJ"), main = "ToothGrowth")
+
+# Example 2:
+
+data(AgarDiffusionAssay)
+
+# Agar   <- read.table("./pla/vignettes/PhEur/data/AntibioticAgarDiffusionAssay.txt",
+#                      header = TRUE)
+Agar     <- AgarDiffusionAssay
+Design   <- "lsd"
+select   <- c("Row", "Column", "Sample", "Dilution", "Response")
+Frame    <- data2assayFrame(Agar[, select])
+
+fits   <- pla.fit(Frame, design = Design, sampleLabels = c("S", "T"),
+                  dr = 1.5, returnPotencyEstimates = TRUE)
+
+## Alternative on object of class 'pla':
+
+plaModel <- plaLSD(Agar)
+Fits <- fit(plaModel)
 }
 \keyword{ mich }

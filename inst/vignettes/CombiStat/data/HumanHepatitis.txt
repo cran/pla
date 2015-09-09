@@ -1,0 +1,80 @@
+Dose          R1    R2    R3 Sample
+
+Dose-0.010 0.633 0.629 0.649 S
+Dose-0.020 0.401 0.409 0.411 S
+Dose-0.040 0.206 0.204 0.211 S
+Dose-0.080 0.077 0.079 0.080 S
+Dose-0.010 0.502 0.508 0.518 T
+Dose-0.020 0.297 0.29  0.302 T
+Dose-0.040 0.136 0.128 0.136 T
+Dose-0.080 0.040 0.042 0.035 T
+
+Model                    . . . "Parallel lines"
+Design                   . . . "Completely randomised"
+Transformation           . . . "y' = sqrt(y)"
+FUN                      . . . "function(x) sqrt(x)"
+INV                      . . . "function(x) x^2"
+Factor                   . . . "600, 100, 100 / 1.42076439"
+Rows                     . . . "Dilutions & Samples"
+Columns                  . . . "Replicates"
+DilutionRatio            . . . "2"
+
+ResultOfAssay            . . . "Example 8: Human Hepatitis A immunoglobulin"
+Project                  . . . "CombiStats - EDQM, Council of Europe"
+Description              . . . "Four-dose parallel line assay; explicit content notation"
+Comment                  . . . "Square root transformation"
+Resume                   . . . ""
+Date                     . . . ""
+Operator                 . . . ""
+
+Source                   . . . "CombiStats - EDQM, Council of Europe"
+URL                      . . . "http://combistats.edqm.eu/images/stories/Examples/Hepatitis%20A%20Ig.pdf"
+Example                  . . . "08"
+Substance                . . . "Human Hepatitis A immunoglobulin"
+Method                   . . . "Elisa"
+
+StandardSample           . . . "Sample Ph. Eur. BRP Batch 1"
+StandardAssPot           . . . "10.2 IU/vial"
+StandardReconstitution   . . . "1 vial / ml"
+StandardDilutions        . . . "0.080 0.040 0.020 0.010"
+
+Sample1Sample            . . . "Batch 35K09755"
+Sample1AssPot            . . . "600 IU/ampoule"
+Sample1Reconstitution    . . . "1 ampoule / ml"
+Sample1Dilutions         . . . "0.080 0.040 0.020 0.010"
+
+A1@Preparations          1    0.0462082      0.0462082    >1000    
+A1@Regression            1    0.900001       0.900001     >1000    
+A1@Non-parallelism       1    4.46096E-06    4.46096E-06      0.131    
+A1@Non-linearity         4    0.000372149    9.30372E-05      2.734    
+A1@_Standard             2    0.000301770    0.000150885      4.433    
+A1@_Sample1              2    7.03791E-05    3.51896E-05      1.034    
+A1@Quadratic_curvature   1    6.14615E-05    6.14615E-05      1.806    
+A1@Lack_of_quadratic_fit 3    0.000310687    0.000103562      3.043    
+A1@Treatments            7    0.946586       0.135227     >1000    
+A1@Residual_error       16    0.000544535    3.40335E-05       .    
+A1@Total                23    0.947131       0.0411796         .    
+P1@Potency               .  835.028        852.459          870.357    
+P1@ReltoAss              .  139.2          142.1            145.1    
+P1@ReltoEst              .   98.0          100.0            102.1    
+C1@CommonSlope(factor)   .   -0.249882        .                .    
+C1@Correlation           .    0.999514        .                .    
+             
+A2@Preparations          0.000 . . ""
+A2@Regression            0.000 . . ""
+A2@Non-parallelism       0.722 . . ""
+A2@Non-linearity         0.066 . . ""
+A2@Standard              0.029 . . ""
+A2@Sample1               0.378 . . ""
+A2@Quadraticcurvature    0.198 . . ""
+A2@Lackofquadraticfit    0.059 . . ""
+A2@Treatments            0.000 . . ""
+A2@Residualerror         .     . . ""
+A2@Total                 .     . . ""
+P2@Potency               .     . . ""
+P2@ReltoAss              .     . . ""
+P2@ReltoEst              .     . . ""
+C2@CommonSlope(factor)   .     . . ""
+C2@Correlation           .     . . ""
+                 
+

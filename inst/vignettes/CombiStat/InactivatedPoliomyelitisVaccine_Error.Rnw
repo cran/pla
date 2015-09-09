@@ -1,0 +1,53 @@
+%\VignetteIndexEntry{Parallel line Assay: InactivatedPoliomyelitisVaccine}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, BCOR3mm, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{color}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+{\noindent
+Example 10: "Outlier" not excluded
+and Sums of Squares thus not correct, but 'similar';
+Plots could by flipped; Potency needs adjustment! 
+}
+
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+## The manual page of this data by 'help' gives a much shorter version of the following code:
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Design  <- "crd"
+Example <- "Example 10"
+Data    <- readAssayTable("data/IPV_Error.txt", fun = log10,
+                          rows = "Dilutions & Samples", columns = "Replicates")
+@ 
+\color{\Sexpr{Data@internals$Color}}
+\Sexpr{Data@internals$Font}
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+Frame   <- as.data.frame(Data)
+@ 
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(285/2, 100 * 285 / 160 / 2, NA)
+names(factor) <- c("Potency", "Rel. to. Ass.", "Rel. to Est.")
+# pla.fit(Frame, main = Data@assayTitle, tag = Data@projectTitle, design = Design, 
+#         sampleLabels = c("S", "T"), dr = 2, Sweave = TRUE, show = TRUE,
+#         factor = factor, expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+% Models and Residuals:
+% \setkeys{Gin}{width=1.00\textwidth}
+% \begin{figure}[h]
+%     \centering
+% <<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+% # pla.plots(Frame, sampleLabels = c("S", "T"), 
+% #           showRho = FALSE, design = Design, main = Data@assayTitle)
+% @ 
+% \caption{\textit{Models and Residuals.}}
+% \end{figure}
+\end{document}

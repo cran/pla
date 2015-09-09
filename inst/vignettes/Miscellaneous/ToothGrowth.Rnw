@@ -1,0 +1,97 @@
+%\VignetteIndexEntry{Parallel line Assay: ToothGrowth}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+% http://www.tug.dk/FontCatalogue/dejavusans/
+% DejaVu Sans
+
+\usepackage{DejaVuSans}
+%% Another possibility is
+%% \usepackage{dejavu}
+%% which loads the DejaVu Serif and DejaVu Sans Mono fonts as well
+\renewcommand*\familydefault{\sfdefault} 
+%% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+\begin{flushright}
+  {\footnotesize DejaVu Sans}
+\end{flushright}
+
+\medskip
+
+{\scriptsize
+  \noindent
+  From {https://bugs.r-project.org/bugzilla3/show\_bug.cgi?id=15953} :
+  Edward Kuns 2015-04-17 15:46:37 UTC:
+
+  \medskip
+  \noindent
+  Description
+
+  \medskip
+  \noindent
+  The response is the length of odontoblasts
+  (cells responsible for tooth growth) in 60 guinea pigs,
+  each receiving one of three dose levels of Vitamin C
+  (0.5, 1.0, and 2.0 mg) with one of two delivery methods
+  (orange juice or an aqueous solution of ascorbic acid).
+  No guinea pig received a dose of zero as they would
+  acquire scurvy at that dose.
+
+}
+
+\medskip
+
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+library(xtable)
+source("R/xtables.R")
+require(graphics)
+Dilution  <- 2+log(ToothGrowth["dose"])/log(2)
+names(Dilution) <- "Dilution"
+Replicate <- rep(1:10, 6)
+Data <- cbind(ToothGrowth, Replicate, Dilution)
+dimnames(Data)[[2]] <- c("Response", "Sample", "Dose", "Replicate", "Dilution")
+Design <- "crd"
+@ 
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+coplot(Response ~ Dose | Sample, data = Data, panel = panel.smooth,
+       xlab = "ToothGrowth data: length vs dose, given type of supplement")
+@ 
+\caption{\textit{Coplot of ToothGrowth.}}
+\end{figure}
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Frame <- data2assayFrame(Data, dr = 2, design = Design)
+Fits <- pla.fit(Frame, design = Design, dr = 2,
+                sampleLabels = c("VC", "OJ"),
+                main = "ToothGrowth", tag = "ToothGrowth",
+                Sweave = TRUE, show = TRUE)
+@ 
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+pla.plots(Frame, design = Design,
+          sampleLabels = c("VC", "OJ"),
+          main = "ToothGrowth")
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

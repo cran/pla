@@ -1,0 +1,69 @@
+%\VignetteIndexEntry{Parallel line Assay: Diphteria}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+% http://www.tug.dk/FontCatalogue/dejavusans/
+% DejaVu Sans
+
+\usepackage{DejaVuSans}
+%% Another possibility is
+%% \usepackage{dejavu}
+%% which loads the DejaVu Serif and DejaVu Sans Mono fonts as well
+\renewcommand*\familydefault{\sfdefault} 
+%% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+\begin{flushright}
+  {\footnotesize DejaVu Sans}
+\end{flushright}
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+library(xtable)
+source("R/xtables.R")
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Data    <- readAssayTable("data/Diphteria_byLabel.txt", fun = function(x) x^2,
+                          rows = "Dose & Samples", columns = "Replicates",
+                          echoTitle = FALSE)
+@ 
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(1000 * 23.75, 250, 100 / 0.932); # OK: bruger disse vaerdier
+names(factor) <- c("Potency", "Rel. to. Ass.", "Rel. to Est.")
+factor <- NaN; # OK: 100/Potency
+names(factor) <- c("Potency")
+factor <- NA; # OK: tager fra data.
+names(factor) <- c("Potency")
+factor <- c(23.75, 250, NaN); # OK: bruger disse vaerdier, men 1/pot ved Nan
+factor <- c(23.75, 250, NA); # OK: bruger disse vaerdier, men 1/pot ved Nan
+names(factor) <- c("Potency", "Rel. to. Ass.", "Rel. to Est.")
+factor <- NA; # OK (ogsaa med NA i data): tager fra data.
+names(factor) <- c("Potency")
+plaModel <- pla(Data, dilutionRatio = 2, factor = factor, 
+                byOrder = FALSE, echoData = FALSE, design = "crd")
+Fits <- fit(plaModel, expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+<<echo=False, results=tex>>=
+xtablesAssay(data = Data, model = plaModel, fits = Fits, digits = 2,
+             label = "Data before squaring", INV = function(x) sqrt(x))
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+plots <- plot(plaModel)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

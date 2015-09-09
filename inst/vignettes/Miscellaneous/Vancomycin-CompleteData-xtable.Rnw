@@ -1,0 +1,92 @@
+%\VignetteIndexEntry{Parallel line Assay: Vancomycin}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+% http://www.tug.dk/FontCatalogue/cmss/
+% Computer Modern Sans Serif
+% \usepackage{cmbright}
+\usepackage[T1]{fontenc}
+\renewcommand{\familydefault}{\sfdefault}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+\begin{flushright}
+  {\footnotesize Computer Modern Sans Serif}
+\end{flushright}
+
+\medskip
+
+{\scriptsize
+  
+  \noindent
+  Three-Dose Multiple Assay With Randomised Block Design \\
+  6 plates with 2 preparations and three dose one each. 
+}
+
+\medskip
+
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+library(xtable)
+source("R/xtables.R")
+Data <- readAssayTable("data/Vancomycin_outlier.txt", echoTitle = FALSE)
+@
+<<eval=TRUE,echo=FALSE>>=
+plaModel <- plaRBD(Data, dilutionRatio = 2.25, echoData = FALSE)
+Fits <- fit(plaModel)
+@
+<<echo=False, results=tex>>=
+xtablesAssay(data = Data, model = plaModel, fits = Fits)
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=6>>=
+plots <- plot(plaModel, plots = "twoway", 
+              pch = 32 + 16 + as.numeric(unlist(c(plaModel@data["Replicate"]))),
+              mfrow = c(1, 1))
+@
+\caption{\textit{Two way.}}
+\end{figure}
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=6>>=
+plots <- plot(plaModel, plots = "stepadjusted", 
+              pch = 32 + 16 + as.numeric(unlist(c(plaModel@data["Replicate"]))),
+              mfrow = c(1, 1))
+@
+\caption{\textit{Step Adjusted Two way.}}
+\end{figure}
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=6>>=
+plots <- plot(plaModel, plots = "residualsPlate", 
+              pch = 32 + 16 + as.numeric(unlist(c(plaModel@data["Replicate"]))),
+              mfrow = c(1, 1))
+@
+\caption{\textit{Residuals by plate.}}
+\end{figure}
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=3.5>>=
+plots <- plot(plaModel)
+@
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

@@ -180,7 +180,7 @@ plaLSD(data, alpha = 0.05, imputeMissing = FALSE, dfAdjustment = NA,
 \author{ Jens Henrik Badsberg }
 \references{
   Chapter 5.3. Statistical analysis.
-  In EUROPEAN PHARMACOPOEIA 5.0, 2004; 475-504.
+  In EUROPEAN PHARMACOPOEIA version 8.0, 2014; 607-635.
   
   Bliss, C.I. (1952):
   The Statistics of Bioassay - with special reference to the vitamin.

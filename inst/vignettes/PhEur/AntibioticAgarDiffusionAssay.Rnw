@@ -1,0 +1,85 @@
+%\VignetteIndexEntry{Parallel line Assay: AntibioticAgarDiffusionAssay}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, BCOR3mm, DIV16]{scrreprt}
+\usepackage{Sweave}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+{\scriptsize
+  \noindent
+  5.1.2. THREE-DOSE LATIN SQUARE DESIGN \\
+  {\em Antibiotic agar diffusion assay} using a rectangular tray. \\
+  The standard has an assigned potency of 4855 IU/mg. The
+  test preparation has an assumed potency of 5600 IU/mg.
+  For the stock solutions 25.2 mg of the standard is dissolved
+  in 24.5 ml of solvent and 21.4 mg of the test preparation
+  is dissolved in 23.95 ml of solvent. The final solutions are
+  prepared by first diluting both stock solutions to 1/20 and
+  further using a dilution ratio of 1.5.
+
+  \noindent
+  A Latin square is generated with the method described
+  in Section 8.6 (see Table 5.1.2.-I). The responses of this
+  routine assay are shown in Table 5.1.2.-II (inhibition zones
+  in mm x 10). The treatment mean values are shown in
+  Table 5.1.2.-III. 
+  
+  \noindent
+  A graphical representation of the data (see
+  Figure 5.1.2.-I) gives no rise to doubt the normality or
+  homogeneity of variance of the data.
+}
+
+<<eval=TRUE,echo=FALSE>>=
+## The manual page of this data by 'help' gives a much shorter version of the following code:
+library(pla)
+myLine <- function(char = "=", length = 80, start = "", end = "\n") {
+  cat(start)
+  cat(paste(rep(char, 80), collapse = ""))
+  cat(end)
+}
+Design     <- "latin"
+Main       <- "Antibiotic Agar Diffusion Assay"
+Tag        <- "PhEur"
+AADAData   <- read.table("data/AntibioticAgarDiffusionAssay.txt", header = TRUE)
+Zones      <- matrix(unlist((AADAData["Response"])), ncol = 6)
+Sample     <- as.character(unlist(AADAData["Sample"]))
+Step       <- as.character(unlist(AADAData["Dilution"]))
+SampleStep <- paste0(Sample, ":", Step)
+Treatments <- matrix(unlist((SampleStep)), ncol = 6)
+myLine()
+dimnames(Treatments)[[2]] <- paste("Sample", 1:6)
+Treatments
+myLine("-")
+dimnames(Zones)[[2]] <- paste("Zones", 1:6)
+Zones
+myLine()
+#(data.frame(Zones, Treatments))
+Sample    <- 3-as.numeric(unlist(AADAData["Sample"]))
+Step      <- 4-as.numeric(unlist(AADAData["Dilution"]))
+Row       <- as.numeric(unlist(AADAData["Row"]))
+Order     <- order(Sample, Step, Row)
+PHframe   <- data2assayFrame(AADAData[Order,])
+@ 
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+factor <- 5600 * (4855 * 25.2/24.5) / (5600 * 21.4 / 23.95)
+pla.fit(PHframe, main = "Table 13 from Ph.Eur.", tag = "Table3", 
+        design = Design, dr = 1.5, factor = factor,
+        Sweave = TRUE, show = TRUE)
+@ 
+Models and Residuals:
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+    \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+pla.plots(PHframe, pdfName = paste(Tag, "-Plots.pdf", sep = ""),
+          design = Design, main = Main)
+@ 
+%\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

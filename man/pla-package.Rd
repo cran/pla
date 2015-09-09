@@ -34,8 +34,8 @@
   \tabular{ll}{
     Package: \tab pla\cr
     Type: \tab Package\cr
-    Version: \tab 0.1\cr
-    Date: \tab 2015-08-18\cr
+    Version: \tab 0.2\cr
+    Date: \tab 2015-09-09\cr
     License: \tab GPL (>= 2)\cr
   }
 
@@ -47,8 +47,8 @@
     by columns of factors and variables, or entered as tables (arrays)
     of responses. The result has methods \link{as.data.frame},
     \link{as.array}, and \link{as.table}.
-    % Many examples of input data are found in the folder
-    % \code{.../pla/vignettes/'Source'/data/}.
+    Many examples of input data are found in the folder
+    \code{.../pla/vignettes/'Source'/data/}.
     \itemize{
     \item \link{assayTable2frame}: An \link{array} with the responses of
     an assay is transformed to a \link{data.frame} for \link{pla.fit} and
@@ -71,6 +71,54 @@
     \item \link{jitterSteps}: Compute a perturbed version of the
     concentration-variable. 
     }
+    \item Examples from Ph.Eur.:
+    \itemize{
+      \item 5.1.1. Two-dose multiple assay with completely randomized design;
+      An assay of corticotrophin by subcutaneous injection in rats: 
+      \link{Corticotrophin}
+      \item 5.1.2. Three-dose latin square design;
+      Antibiotic agar diffusion assay using a rectangular tray: 
+      \link{AgarDiffusionAssay}.
+      \item 5.1.3. Four-dose randomized block design;
+      Antibiotic turbidimetric assay: 
+      \link{Turbidimetric}.
+      \item 5.1.4. Five-dose multiple assay with completely randomized design;
+      An in-vitro assay of three hepatitis B vaccines against a standard: 
+      \link{HepatitisB}.
+    }
+    \item From CombiStats - EDQM, Council of Europe
+          \url{http://combistats.edqm.eu}:
+    \itemize{
+      \item Example  1 - Three-dose parallel line assay; completely randomized; 
+      square transformation; explicit volume units; 
+      \link{Diphteria},
+      \item Example  2 - Three-dose parallel line assay; randomized block;      
+      explicit content notation; 
+      \link{Erythropoietin},
+      \item Example  3 -  Four-dose parallel line assay; completely randomized; 
+      logarithmic transformation; explicit ratio notation; 
+      \link{FactorIX},
+      \item Example  5 - Three-dose parallel line assay; completely randomized; 
+      custom transformation; explicit content notation; 
+      \link{HeparinSodium},
+      \item Example  7 -  Five-dose parallel line assay; completely randomized; 
+      logarithmic transformation; explicit ratio notation; 
+      \link{HepatitisBvaccine},
+      \item Example  8 -  Four-dose parallel line assay; completely randomized; 
+      square root transformation; explicit content notation; 
+      \link{HumanHepatitis}
+      (Human Hepatitis A immunoglobulin),
+      \item Example 10 -  Four-dose parallel line assay; completely randomized; 
+      logarithmic transformation; explicit ratio notation; 
+      \link{IPV} (Inactivated Poliomyelitis Vaccine).
+      \item Example 15 -  Five-dose multiple assay; randomized block design;
+      explicit ratio notation
+      \link{Nystatin},
+      \item Example 22 - Three-dose parallel line assay at three independent occasions; 
+      randomized block; symbolic notation; 
+      \link{Erythromycin},
+    }
+    \item Other example: \link{Vancomycin}.
   }
 
   The two main functions are \link{pla.fit} and \link{pla.plots},
@@ -80,7 +128,7 @@
 
   One way to understand (and to reproduce) the structure of the expected
   input of \link{pla.fit} and \link{pla.plots} is to look into
-  \link{data2assayFrame}.
+  \link{data2assayFrame} and \link{AgarDiffusionAssay}.
   The column names \code{Response}, \code{Dilution}, \code{Sample},
   \code{Replicate}, \code{Row}, and \code{Column} of the input for
   \link{data2assayFrame} cannot be changed. 
@@ -104,11 +152,18 @@
 
   The output listing is designed for "R CMD Sweave" and "pdflatex".
 
+  Acknowledgment: Thanks to CombiStats % , \url{http://combistats.edqm.eu/},
+  for permitting the presentation of the data of CombiStats in this package.
+  The statistical analyses of this data are also performed by
+  the CombiStats program, and the results can be found on
+  \url{http://combistats.edqm.eu/}.
+
 }
 \author{Jens Henrik Badsberg <pla2015@badsberg.eu>}
 \references{
   Ph.Eur.: Chapter 5.3. Statistical analysis.
-  In EUROPEAN PHARMACOPOEIA 5.0, 2004; 475-504.
+  In EUROPEAN PHARMACOPOEIA version 8.0, 2014;
+  607--635 (475-504 in version 5.0, 2004).
 
   Coward, Katrine Hope, Kassner, Elsie Woodward (1941):
   A Comparison between Interlitter and Intralitter variation in rats
@@ -131,3 +186,23 @@
   Charles Griffin & Company Ltd. Third Edition.
 }
 \keyword{ package }
+\examples{
+data(Corticotrophin); Data <- Corticotrophin
+
+Design <- "crd"
+Data <- readAssayTable(paste(system.file(package = "pla"),
+                             "vignettes/PhEur/data/Corticotrophin.txt",
+                             sep = "/"))
+Frame  <- as.data.frame(Data)
+fits <- pla.fit(Frame, design = Design, sampleLabels = c("S", "T", "U"),
+                dr = 4, returnPotencyEstimates = TRUE)
+plots <- pla.plots(Frame, design = Design, sampleLabels = c("S", "T", "U"), 
+                   colTst = c("blue", "red"), showRho = FALSE,
+                   main = "PhEur: Corticotrophin; Subcutaneous Injection In Rats",
+                   tests = fits@tests,)
+
+## Alternative on object of class 'pla':
+plaModel <- plaCRD(Data,
+                   assayTitle = "PhEur: Corticotrophin; Subcutaneous Injection In Rats")
+Fits <- fit(plaModel)
+}

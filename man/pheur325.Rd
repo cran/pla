@@ -73,7 +73,7 @@ pheur325(data,
 }
 \references{
   Chapter 5.3. Statistical analysis.
-  In EUROPEAN PHARMACOPOEIA 5.0, 2004; 475-504.
+  In EUROPEAN PHARMACOPOEIA version 8.0, 2014; 607-635.
   
   Fieller, E.C.: The biological standardization of insulin. Supplement to the
   Journal of the Royal Statistical Society. 1940; Vol. VII., No. 1.

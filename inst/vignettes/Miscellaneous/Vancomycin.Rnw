@@ -1,0 +1,33 @@
+%\VignetteIndexEntry{Parallel line Assay: Vancomycin}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+Design <- "blocks"
+Data   <- readAssayTable("data/Vancomycin.txt")
+Frame  <- as.data.frame(Data, dr = 2.25)
+@ 
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+pla.fit(Frame, design = Design, dr = 2.25,
+        main = Data@assayTitle, tag = Data@projectTitle,
+        Sweave = TRUE, show = TRUE,
+        expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+Models and Residuals:
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+    \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+pla.plots(Frame, design = Design, main = Data@assayTitle)
+@ 
+%\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

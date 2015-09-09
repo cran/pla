@@ -1,0 +1,92 @@
+%\VignetteIndexEntry{Parallel line Assay: Diphteria}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+% http://www.tug.dk/FontCatalogue/dejavusans/
+% DejaVu Sans
+
+\usepackage{DejaVuSans}
+%% Another possibility is
+%% \usepackage{dejavu}
+%% which loads the DejaVu Serif and DejaVu Sans Mono fonts as well
+\renewcommand*\familydefault{\sfdefault} 
+%% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+\begin{flushright}
+  {\footnotesize DejaVu Sans}
+\end{flushright}
+
+\medskip
+
+{\scriptsize
+  \noindent
+  5.1.2. THREE-DOSE LATIN SQUARE DESIGN \\
+  Antibiotic agar diffusion assay using a rectangular tray. \\
+  The standard has an assigned potency of 4855 IU/mg. The
+  test preparation has an assumed potency of 5600 IU/mg.
+  For the stock solutions 25.2 mg of the standard is dissolved
+  in 24.5 ml of solvent and 21.4 mg of the test preparation
+  is dissolved in 23.95 ml of solvent. The final solutions are
+  prepared by first diluting both stock solutions to 1/20 and
+  further using a dilution ratio of 1.5.
+
+  \noindent
+  A Latin square is generated with the method described
+  in Section 8.6 (see Table 5.1.2.-I). The responses of this
+  routine assay are shown in Table 5.1.2.-II (inhibition zones
+  in mm x 10). The treatment mean values are shown in
+  Table 5.1.2.-III. 
+  
+  \noindent
+  A graphical representation of the data (see
+  Figure 5.1.2.-I) gives no rise to doubt the normality or
+  homogeneity of variance of the data.
+}
+
+\medskip
+
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+library(xtable)
+source("R/xtables.R")
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Data    <- readAssayTable("data/Nystatin.txt",
+                          rows = "Measurements", 
+                          columns = "All factors and variables",
+                          echoTitle = FALSE)
+as.array(Data, c(3, 2, 1), reduced = TRUE)
+@ 
+<<eval=TRUE,echo=FALSE>>=
+f <- (4855 * 25.2/24.5) / (5600 * 21.4 / 23.95)
+factor <- c(5600 * f, 100 * f, NA)
+names(factor) <- c("A", "B", "C")
+plaModel <- plaLSD(Data, dilutionRatio = 1.5, factor = factor, echoData = FALSE)
+Fits <- fit(plaModel, expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+<<echo=False, results=tex>>=
+xtablesAssay(data = Data, model = plaModel, fits = Fits, digits = 2)
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+plots <- plot(plaModel, plots = "all", mfrow = c(3, 4))
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

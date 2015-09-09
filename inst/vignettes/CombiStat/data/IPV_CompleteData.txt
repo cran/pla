@@ -1,0 +1,62 @@
+Dose     R1    R2    R3    R4    Sample
+
+Dose-240 0.073 0.081 0.110 0.140 S
+Dose-120 0.150 0.165 0.167 0.168 S
+Dose-060 0.258 0.293 0.270 0.245 S
+Dose-030 0.418 0.460 0.469 0.464 S
+
+Dose-120 0.095 0.084 0.060  NA   T
+Dose-060 0.120 0.144 0.124 0.174 T
+Dose-030 0.239 0.277 0.261 0.291 T
+Dose-015 0.416 0.467 0.390 0.451 T
+
+Comment                  . . . . "Dose-120, R4: 0.185 is marked and here replaced by NA"
+
+Model                    . . . . "Parallel lines"
+Design                   . . . . "Completely randomised"
+Transformation           . . . . "y' = log(y)"
+FUN                      . . . . "function(x) log(x)"
+INV                      . . . . "function(x) exp(log(10)*x)"
+Factor                   . . . . "1"
+Rows                     . . . . "Dilutions & Samples"
+Columns                  . . . . "Replicates"
+DilutionRatio            . . . . "2"
+
+ResultOfAssay            . . . . "Example 10: Inactivated poliomyelitis vaccine"
+Project                  . . . . "CombiStats - EDQM, Council of Europe"
+Description              . . . . "Four-dose parallel line assay; explicit ratio notation"
+Comment                  . . . . "Logarithmic transformation"
+Resume                   . . . . "Data for Complete data analysis with missing value"
+Date                     . . . . ""
+Operator                 . . . . ""
+
+Source                   . . . . "CombiStats - EDQM, Council of Europe"
+URL                      . . . . "http://combistats.edqm.eu/images/stories/Examples/IPV.pdf"
+Example                  . . . . "10"
+Substance                . . . . "Inactivated poliomyelitis vaccine"
+Method                   . . . . "Type 3"
+
+StandardSample           . . . . "Preparation Ph. Eur. BRP Batch 1"
+StandardAssPot           . . . . "285 D-Ag U/ml"
+StandardDilutions        . . . . "1/30 1/60 1/120 1/240"
+
+Sample1Sample            . . . . "Preparation Batch 45A54B"
+Sample1AssPot            . . . . "160 D-Ag U/ml"
+Sample1Dilutions         . . . . "1/15 1/30 1/60 1/120"
+
+A1@Preparations               1      0.00340861      0.00340861      0.772   0.389
+A1@Regression                 1      2.06832         2.06832       468.356   0.000
+A1@Non-parallelism            1      0.00770829      0.00770829      1.745   0.199
+A1@Non-linearity              4      0.00419635      0.00104909      0.238   0.914
+A1@_Standard                  2      0.000203041     0.000101521     0.023   0.977
+A1@_Sample1                   2      0.00399331      0.00199665      0.452   0.642
+A1@Quadratic_curvature        1      0.000462688     0.000462688     0.105   0.749
+A1@Lack_of_quadratic_fit      3      0.00373366      0.00124455      0.282   0.838
+A1@Treatments                 7      2.08364         0.297663       67.403   0.000
+A1@Residual_error            23      0.101571        0.00441613       .      ""
+A1@Total                     30      2.18521         0.0728403        .      ""
+P1@Potency                    .    107.839         124.963         144.641   ""
+P1@ReltoAss                   .     67.4            78.1            90.4     ""
+P1@ReltoEst                   .     86.3           100.0           115.7     ""
+C1@CommonSlope(factor)        .      0.338369         .               .      ""
+C1@Correlation|r|             .      0.973689         .               .      ""

@@ -14,17 +14,21 @@ setMethod("as.table",
               response = responseName,
               reduced = FALSE, selectFun = function (array) NULL, ...)
     {
-        indexHeader <- x@internals$description$indexHeader
-        responseName <- names(indexHeader)[1]
-        exclude <- names(indexHeader) == response |
-                   names(indexHeader) == "Label"
-        factorNames <- unlist(indexHeader[!exclude])
-        ## if (type == "counts") {
-        ##     table(x@tableRaw[, factorNames[rev(which)]])
-        ## } else {
-        ## }
-        as.array(x, which = which, type = type,
-                 reduced = reduced, selectFun = selectFun, ...)
+        if (length(x@internals) > 0) {
+            indexHeader <- x@internals$description$indexHeader
+            responseName <- names(indexHeader)[1]
+            exclude <- names(indexHeader) == response |
+                names(indexHeader) == "Label"
+            factorNames <- unlist(indexHeader[!exclude])
+            ## if (type == "counts") {
+            ##     table(x@tableRaw[, factorNames[rev(which)]])
+            ## } else {
+            ## }
+            as.array(x, which = which, type = type,
+                     reduced = reduced, selectFun = selectFun, ...)
+        } else
+            as.array(x, which = which, type = type,
+                     reduced = reduced, selectFun = selectFun, ...)
     }
 )
 
@@ -75,6 +79,13 @@ setMethod("as.array",
             selectNames <- factorNames[whichFactors]
         else
             selectNames <- whichFactors
+        ## Hack for 'x' is from 'assayTable2frame' :
+        if (length(factorNames) == length(which(lapply(x, class) == "factor")))
+            if (all(factorNames == names(which(lapply(x, class) == "factor"))))
+                if ((length(selectNames) == 2) &
+                    any("Dilution" == dimnames(x)[[2]]))
+                    if (all(selectNames == c("SampleStep", "Sample")))
+                        selectNames <- c("Sample", "Dilution")
         Array <- table(x[, selectNames])
         dimNames <- dimnames(Array)
         if (type != "counts") {
@@ -98,32 +109,38 @@ setMethod("as.array",
               reduced = FALSE, selectFun = function (array) NULL,
               ...)
     {
-        indexHeader <- x@internals$description$indexHeader
-        responseName <- names(indexHeader)[1]
-        exclude <- names(indexHeader) == response |
-                   names(indexHeader) == "Label"
-        factorNames <- unlist(indexHeader[!exclude])
         if (length(x@assay) > 0)
             return(x@assay)
         else {
-            Array <- as.array(x@tableRaw, whichFactors = which,
-                              whichResponse = 1, type = type, FUN = FUN,
-                              response = responseName,
-                              responseNames = responseName,
-                              factorNames = factorNames,
-                              reduced = reduced,
-                              selectFun = selectFun, ...)
-            ## ## Not relevant here, as the 'responses' are as the are:
-            ## fun <- x@fun
-            ## log <- x@log
-            ## Array <- fun(Array)
-            ## if (log == TRUE)
-            ##     Array <- log(Array)
-            ## else if (log != FALSE)
-            ##     Array <- log(Array) / log(log)
-            ## ## Alternativ: Then 'fun' and 'log' should also be applied on
-            ## ##             'dataframe["Dilution"]' in 'data2assayFrame'!
-            return(Array)
+            if (length(x@internals) > 0) {
+                indexHeader <- x@internals$description$indexHeader
+                responseName <- names(indexHeader)[1]
+                exclude <- names(indexHeader) == response |
+                    names(indexHeader) == "Label"
+                factorNames <- unlist(indexHeader[!exclude])
+                Array <- as.array(x@tableRaw, whichFactors = which,
+                                  whichResponse = 1, type = type,
+                                  FUN = FUN,
+                                  response = responseName,
+                                  responseNames = responseName,
+                                  factorNames = factorNames,
+                                  reduced = reduced,
+                                  selectFun = selectFun, ...)
+                ## ## Not relevant here, as the 'responses' are as the are:
+                ## fun <- x@fun
+                ## log <- x@log
+                ## Array <- fun(Array)
+                ## if (log == TRUE)
+                ##     Array <- log(Array)
+                ## else if (log != FALSE)
+                ##     Array <- log(Array) / log(log)
+                ## ## Alternativ: Then 'fun' and 'log' should also be applied on
+                ## ##             'dataframe["Dilution"]' in 'data2assayFrame'!
+                return(Array)
+            } else
+                return(as.array(x@tableRaw, type = type, FUN = FUN,
+                                ## which = which, response = response,
+                                reduced = reduced, selectFun = selectFun, ...))
         }
     }
 )

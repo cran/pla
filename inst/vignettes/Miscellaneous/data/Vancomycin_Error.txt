@@ -1,0 +1,24 @@
+Plate         T3   T2   T1	S3   S2   S1   Label
+
+Plate-1	      23.4 21.7 19.5	23.3 22.2 19.6 "" 
+Plate-2	      23.4 22.0 19.9	23.3 21.3 (19.3) "" 
+Plate-3	      22.9 22.1 19.7	23.4 21.1 19.9 "" 
+Plate-4	      23.4 21.0 19.2	22.9 21.4 19.9 "" 
+Plate-5	      23.2 21.5 19.7	23.1 21.5 19.6 "" 
+Plate-6	      22.9 21.7 19.3	22.9 20.1 19.7 "" 
+
+Model                    .. . . . . "Parallel lines"
+Design                   . . . . . . "Randomised block"
+Transformation           . + . . . . "y' = y"
+Rows                     . . . . . . "Blocks"
+Columns                  . . . . . . "Samples & Dilutions"
+DilutionRatio            . . . . . . "2.25"
+
+ResultOfAssay            . . . . . . "Accuracy" 
+Project                  . . . . . . "Vancomycin"          
+Comment                  . . . . . . "3 errors made in this data-file!"
+Operator                 . . . . . . "JHB"                 
+
+StandardName             . . . . . . "standard USP"        
+UnknownName              . . . . . . "Accuracy" 
+

@@ -1,0 +1,91 @@
+Dose       R1    R2    R3    Sample
+
+Dose-16000 0.043 0.045 0.051 Standard_1
+Dose-8000  0.093 0.099 0.082 Standard_1
+Dose-4000  0.159 0.154 0.166 Standard_1
+Dose-2000  0.283 0.295 0.362 Standard_1
+Dose-1000  0.514 0.531 0.545 Standard_1
+Dose-16000 0.097 0.097 0.094 Test_2
+Dose-8000  0.167 0.157 0.178 Test_2
+Dose-4000  0.327 0.355 0.345 Test_2
+Dose-2000  0.501 0.665 0.576 Test_2
+Dose-1000  1.140 1.386 1.051 Test_2
+Dose-16000 0.086 0.071 0.073 Unknown_3
+Dose-8000  0.127 0.146 0.133 Unknown_3
+Dose-4000  0.277 0.268 0.269 Unknown_3
+Dose-2000  0.586 0.489 0.546 Unknown_3
+Dose-1000  0.957 0.866 1.045 Unknown_3
+
+Model                    . . . "Parallel lines"
+Design                   . . . "Completely randomised"
+Transformation           . . . "y' = ln(y)"
+FUN                      . . . "function(x) log(x)"
+INV                      . . . "function(x) exp(x)"
+Factor                   . . . "20, 100, 100 / 2.17881187, 20, 100, 100 / 1.76276292"
+Rows                     . . . "Dilutions and Samples"
+Columns                  . . . "Replicates"
+DilutionRatio            . . . "2"
+
+ResultOfAssay            . . . "Example 7: Hepatitis B vaccine"
+Project                  . . . "CombiStats - EDQM, Council of Europe"
+Description              . . . "Five-dose parallel line assay; explicit ratio notation"
+Comment                  . . . "Logarithmic transformation"
+Resume                   . . . ""
+Date                     . . . ""
+Operator                 . . . ""
+
+Source                   . . . "CombiStats - EDQM, Council of Europe"
+URL                      . . . "http://combistats.edqm.eu/images/stories/Examples/Hepatitis%20B.pdf"
+Example                  . . . "07"
+Substance                . . . "Hepatitis B vaccine"
+Method                   . . . "A"
+
+StandardSample           . . . "Sample S"
+StandardAssPot           . . . "S20 'my' g protein / ml
+StandardDilutions        . . . "S1/1000 1/2000 1/4000 1/8000 1/16000"
+
+Sample1Sample            . . . "Sample T"
+Sample1AssPot            . . . "T20 'my' g protein / ml
+Sample1Dilutions         . . . "T1/1000 1/2000 1/4000 1/8000 1/16000"
+
+Sample2Sample            . . . "Sample U"
+Sample2AssPot            . . . "U20 'my' g protein / ml
+Sample2Dilutions         . . . "U1/1000 1/2000 1/4000 1/8000 1/16000"
+
+A1@Preparations	 	 2	3.97720	       1.98860	     	256.703	
+A1@Regression		 1	35.3589	       35.3589		>1000	
+A1@Non-parallelism	 2	0.0156343	0.00781717	1.009	
+A1@Non-linearity	 9	0.0630420	0.00700466	0.904	
+A1@_Standard		 3	0.0170324	0.00567748	0.733	
+A1@_Sample1		 3	0.0282553	0.00941843	1.216	
+A1@_Sample2		 3	0.0177542	0.00591808	0.764	
+A1@Treatments		 14	39.4147		2.81534		363.424	
+A1@Residual_error	 30	0.232401	0.00774670	.	
+A1@Total		 44	39.6471		0.901072	.	
+P1@Potency1		 .	40.4020		43.5762		47.0668	
+P1@ReltoAss1		 .	202.0		217.9		235.3	
+P1@ReltoEst1		 .	92.7		100.0		108.0	
+P1@Potency2		 .	32.7374		35.2553		38.0062	
+P1@ReltoAss2		 .	163.7		176.3		190.0	
+P1@ReltoEst2		 .	92.9		100.0		107.8	
+C1@CommonSlope(factor)	  .	0.904279	.		.	
+C1@Correlation|r|	 .	0.996069	.		.	
+
+A2@Preparations	 	 0.000 . . ""
+A2@Regression		 0.000 . . ""
+A2@Non-parallelism	 0.377 . . ""
+A2@Non-linearity	 0.534 . . ""
+A2@_Standard		 0.541 . . ""
+A2@_Sample1		 0.321 . . ""
+A2@_Sample2		 0.523 . . ""
+A2@Treatments		 0.000 . . ""
+A2@Residual_error	 . . . ""
+A2@Total		 . . . ""
+P2@Potency1		 . . . ""
+P2@ReltoAss1		 . . . ""
+P2@ReltoEst1		 . . . ""
+P2@Potency2		 . . . ""
+P2@ReltoAss2		 . . . ""
+P2@ReltoEst2		 . . . ""
+C2@CommonSlope(factor)	 . . . ""
+C2@Correlation|r|	 . . . ""

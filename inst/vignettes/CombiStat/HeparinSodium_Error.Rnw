@@ -1,0 +1,54 @@
+%\VignetteIndexEntry{Parallel line Assay: HeparinSodium}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, BCOR3mm, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{color}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+
+{\noindent
+  Example 5: Sums of Squares correct (?); Potency needs adjustment!
+}
+
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+## The manual page of this data by 'help' gives a much shorter version of the following code:
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Design  <- "crd"
+Example <- "Example 5"
+Data    <- readAssayTable("data/HeparinSodium_Error.txt",
+                          fun =  function(x) 
+                          matrix(apply(matrix(x, nrow = 2), 2,
+                                       mean), ncol = 6),
+                          log = 10,
+                          rows = "Dilutions & Samples", 
+                          columns = "Inner & Replicates")
+@ 
+\color{\Sexpr{Data@internals$Color}}
+\Sexpr{Data@internals$Font}
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+Frame   <- as.data.frame(Data)
+@ 
+%\newpage
+<<eval=TRUE,echo=FALSE>>=
+pla.fit(Frame, main = Data@assayTitle, tag = Data@projectTitle, design = Design, 
+        sampleLabels = c("S", "T"), dr = 2, Sweave = TRUE, show = TRUE,
+        expectedPotency = Data@potency, expectedAnova = Data@anova)
+@ 
+Models and Residuals:
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+    \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=4>>=
+pla.plots(Frame, sampleLabels = c("S", "T"), 
+          design = Design, main = Data@assayTitle)
+@ 
+\caption{\textit{Models and Residuals.}}
+\end{figure}
+\end{document}

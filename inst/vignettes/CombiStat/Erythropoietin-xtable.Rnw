@@ -1,0 +1,90 @@
+%\VignetteIndexEntry{Parallel line Assay: Erythropoietin}
+%\VignetteDepends{pla}
+%\VignetteEngine{Sweave}
+\documentclass[12pt, DIV16]{scrreprt}
+\usepackage{Sweave}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+% http://www.tug.dk/FontCatalogue/cmss/
+% Computer Modern Sans Serif
+% \usepackage{cmbright}
+\usepackage[T1]{fontenc}
+\renewcommand{\familydefault}{\sfdefault}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\title{Parallel Linje Analyser ved R}
+\author{Jens Henrik Badsberg}
+\date{14.\ juni 2015}
+\begin{document}
+%\maketitle
+\begin{flushright}
+  {\footnotesize Computer Modern Sans Serif}
+\end{flushright}
+<<eval=TRUE,echo=FALSE>>=
+library(pla)
+library(xtable)
+source("R/xtables.R")
+@ 
+<<eval=TRUE,echo=FALSE>>=
+Data    <- readAssayTable("data/Erythropoietin.txt",
+                          rows = "Block", columns = "Dilutions & Samples",
+                          echoTitle = FALSE)
+@
+<<eval=TRUE,echo=FALSE>>=
+factor <- c(120000, 100, 100 / 0.81534172)
+names(factor) <- c("Potency", "Rel. to. Ass.", "Rel. to Est.")
+plaModel <- plaRBD(Data, dilutionRatio = 2, factor = factor, echoData = FALSE)
+Fits <- fit(plaModel, expectedPotency = Data@potency, expectedAnova = Data@anova)
+@
+<<echo=False, results=tex>>=
+xtablesAssay(data = Data, model = plaModel, fits = Fits)
+@
+\setkeys{Gin}{width=1.00\textwidth}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=6>>=
+
+p1 <- c("restricted", "unrestricted", "twoway", "stepadjusted")
+
+plots <- plot(plaModel, plots = p1, mfrow = c(2, 2))
+@ 
+\caption{\textit{Models.}}
+\end{figure}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=6>>=
+p2 <- c("qplot", "histogram", "residualsBoxSample", "residualsSample")
+plots <- plot(plaModel, plots = p2, mfrow = c(2, 2))
+@ 
+\caption{\textit{Residuals and Samples.}}
+\end{figure}
+\begin{figure}[h]
+  \centering
+<<echo=FALSE, eval=TRUE, fig=TRUE, width=6, height=6>>=
+p3 <- c("residualsPlate", "residualsStep")
+plots <- plot(plaModel, plots = p3, mfrow = c(2, 2))
+
+# A few plots you can not ask for in 'pla.plots' and 'plot':
+
+cbbPalette <- c("#000000", "#009E73", "#e79f00", "#9ad0f3",
+                "#0072B2", "#D55E00", "#CC79A7", "#F0E442")
+
+pchs <- 14 + as.numeric(plots$data[,"Replicate"])
+colors <- c("grey", "blue", "red")[as.numeric(plots$data[, "Sample"])]
+colors <- colors <- c("grey", cbbPalette[2:3])[as.numeric(plots$data[, "Sample"])]
+
+plot(Residual ~ factor(plots$data[,"Replicate"]), pch = pchs, col = colors,
+     xlab = "Plate", ylab = "Residuals, Restricted model", 
+     cex.lab = 0.75, sub = "Restricted Model", data = plots$data)
+
+plot(Residual ~ factor(Z), pch = pchs, col = colors,
+     xlab = "log(Dosis)", ylab = "Residuals, Restricted model", 
+     cex.lab = 0.75, sub = "Restricted Model", data = plots$data)
+
+@ 
+\caption{\textit{Residuals, Plates and Dose.}}
+\end{figure}
+\end{document}
